@@ -35,7 +35,7 @@ rooms = {
     },
     'Hallway': {
         'move': {'west': 'City Gate', 'east': 'Library'},
-        'items': [],
+        'items': ['Grimoire'],
         'description': 'There are empty suits of armor on both sides of this hallway.\nIt looks really creepy!',
         'inspect': 'Arida trips over something under the carpet. She lifts the carpet and sees something.'
     },
@@ -57,11 +57,13 @@ current_room = rooms['Entrance']
 
 # Function prints available movement options in a room
 def print_available_movement():
-    print('Type the direction in which you would like to go:')
+    print('Where would you like to go?')
     for move_option, destination in current_room['move'].items():
         print(f'[{move_option.capitalize()}]: {destination}')
+    print()
     print('[I] Inspect Room')
-    print('To end game, type "Exit"')
+    print('[Inv] Check Inventory')
+    print('[Exit] End Game')
 
 # This function handles the movement from one room to another
 def move_rooms(command):
@@ -81,6 +83,11 @@ def inspect_room():
         inventory.append(current_room["items"].pop(0))
     else:
         print('Nothing to see here.')
+    print()
+
+def print_inventory():
+    global inventory
+    print(f'Inventory: {inventory}', end='\n\n')
 
 # Gameplay Loop
 while current_room != 'exit':
@@ -91,6 +98,8 @@ while current_room != 'exit':
         move_rooms(user_input)
     elif user_input == 'i':
         inspect_room()
+    elif user_input == 'inv':
+        print_inventory()
     else:
         print('Invalid. Please try again')
 else:
