@@ -64,7 +64,7 @@ rooms = {
     'City': {
         'move': {'south': 'City Gate'},
         'items': [],
-        'description': 'This city is absolutely massive. It looks like no one has been here for centuries. What secrets will we find?\nWhat is that pile of bones there?'
+        'description': 'You unlock the door to the city using all three keys.\nThis city is absolutely massive. It looks like no one has been here for centuries. What secrets will we find?\nWhat is that pile of bones there?'
     },
 }
 
@@ -85,8 +85,19 @@ def print_available_movement():
 def move_rooms(command):
     global current_room
     if command in current_room['move']:
-        current_room = rooms[current_room['move'][command]]
-        print(current_room['description'])
+        next_room_name = current_room['move'][command]
+        next_room = rooms[next_room_name]
+
+        # Check if player meets condition to enter the city
+        if next_room_name == 'City':
+            if 'Key A' in inventory and 'Key B' in inventory and 'Key C' in inventory:
+                current_room = next_room
+                print(current_room['description'])
+            else:
+                print("You seem to need three keys to enter the City.")
+        else:  # For all other rooms, movement is normal
+            current_room = next_room
+            print(current_room['description'])
     elif command == 'exit':
         current_room = command
 
@@ -105,6 +116,8 @@ def print_inventory():
     global inventory
     print(f'Inventory: {inventory}', end='\n\n')
 
+def boss_fight_sequence():
+    pass
 
 def main():
 
