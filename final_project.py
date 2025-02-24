@@ -1,5 +1,6 @@
 # Abraham Guerrero
 
+# Intro text for the game
 game_start_text = '''
 After months of exploring an underground cave system infested with monstrosities and mysteries, 
 four adventurers determined to find an ancient city rumored to contain the secrets of the universe 
@@ -16,6 +17,7 @@ it closes behind them and they find themselves trapped behind it. Deep in the du
 the party can hear a very loud snoring sound that echoes on the walls. What dangers will they find? 
 '''
 
+# Starting inventory
 inventory = []
 
 #This dictionary links a room to other rooms.
@@ -112,10 +114,12 @@ def inspect_room():
         print('Nothing to see here.')
     print()
 
+# prints player inventory
 def print_inventory():
     global inventory
     print(f'Inventory: {inventory}', end='\n\n')
 
+# Boss sequence to be played when the player enters the city
 def boss_fight_sequence():
     boss_health = 3
     print('''
@@ -127,6 +131,7 @@ def boss_fight_sequence():
     the secrets of the city, and I will not let you have them without a fight."
     ''')
 
+    # Checks key items from inventory to use in boss battle
     if 'Holy Water' in inventory:
         print('Caspian spills the holy water on the dragon, making its undead skeleton burn with holy light', end='\n\n')
         boss_health -= 1
@@ -137,8 +142,7 @@ def boss_fight_sequence():
         print('Arida reads an ancient spell from the grimoire she took and seals the dragon under magical chains', end='\n\n')
         boss_health -= 1
 
-
-
+    # If all three items were used, they win
     if boss_health <= 0:
         print("The party manages to defeat the dragon. It becomes a pile of dust on the floor.")
         print("YOU WIN", end='\n')
@@ -148,6 +152,7 @@ def boss_fight_sequence():
     Caspian finds out how the Gods became who they are today...
     
     But Ambrose? They watched. They gathered information, and left silently. Nobody has seen them since.''')
+    # Otherwise, player loses
     else:
         print("The dragon manages to breath out some dark smoke on the party that drains them from their energy.")
         print("YOU LOSE", end='\n')
@@ -156,24 +161,31 @@ def boss_fight_sequence():
     their bodies are weaker than ever. Somehow, they are still conscious, but lack control over their bodies.
     There is a craving for flesh that consumes them. They have now become servants of the guardian.''')
 
+# Main Function
 def main():
 
     print(game_start_text)
 
+    # Runs game if not exit
     while current_room != 'exit':
         print_available_movement()
         user_input = input().lower()
 
+        # Move if valid option
         if (user_input in current_room['move']) or (user_input == 'exit'):
             move_rooms(user_input)
 
+            # If user moves to city, play boss fight sequence
             if current_room == rooms['City']:  # Check if player is in the city
                 boss_fight_sequence()
                 break
+        # If user presses I, inspect room
         elif user_input == 'i':
             inspect_room()
+        # If user types inv, check inventory
         elif user_input == 'inv':
             print_inventory()
+        # Anything else is invalid
         else:
             print('Invalid. Please try again')
     else:
