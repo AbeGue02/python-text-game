@@ -1,5 +1,21 @@
 # Abraham Guerrero
 
+game_start_text = '''
+After months of exploring an underground cave system infested with monstrosities and mysteries, 
+four adventurers determined to find an ancient city rumored to contain the secrets of the universe 
+seem to be in the last stretch of their trip. 
+
+•	Garok: a sturdy warrior with armor that can protect him against almost any blow
+•	Caspian: A well-studied priest the mission of keeping the rest of the adventurers blessed and safe from the dangers of the darkness
+•	Arida: A royal sorceress who finds herself somehow called by this underground city, and one of the reasons why this mission was carried out
+•	Ambrose: An adept explorer of these caves. They overheard the adventurers in danger and decided to stick along for their safety
+
+The adventurers decided to rest one last time before entering a large gate with the name of the city 
+written in an ancient language that Arida somehow finds herself able to speak. When they wake up and enter this gate, 
+it closes behind them and they find themselves trapped behind it. Deep in the dungeon, 
+the party can hear a very loud snoring sound that echoes on the walls. What dangers will they find? 
+'''
+
 inventory = []
 
 #This dictionary links a room to other rooms.
@@ -89,21 +105,30 @@ def print_inventory():
     global inventory
     print(f'Inventory: {inventory}', end='\n\n')
 
-# Gameplay Loop
-while current_room != 'exit':
-    print_available_movement()
-    user_input = input().lower()
 
-    if (user_input in current_room['move']) or (user_input == 'exit'):
-        move_rooms(user_input)
-    elif user_input == 'i':
-        inspect_room()
-    elif user_input == 'inv':
-        print_inventory()
+def main():
+
+    print(game_start_text)
+
+    while current_room != 'exit':
+        print_available_movement()
+        user_input = input().lower()
+
+        if (user_input in current_room['move']) or (user_input == 'exit'):
+            move_rooms(user_input)
+        elif user_input == 'i':
+            inspect_room()
+        elif user_input == 'inv':
+            print_inventory()
+        else:
+            print('Invalid. Please try again')
     else:
-        print('Invalid. Please try again')
-else:
-    print("You have exited")
+        print("You have exited")
+
+
+# Gameplay Loop
+if __name__ == "__main__":
+    main()  # Call the main function
 
 
 
