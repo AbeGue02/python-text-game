@@ -117,7 +117,44 @@ def print_inventory():
     print(f'Inventory: {inventory}', end='\n\n')
 
 def boss_fight_sequence():
-    pass
+    boss_health = 3
+    print('''
+    The pile of bones in the middle of the city starts moving. Suddenly, a skeleton of a dragon reanimates.
+    The party is taken aback, but they get ready for the fight that is ahead. The dragon looks at them
+    and speaks to them in a language that they do not understand... except Arida, who somehow manages to.
+    
+    "If you seek to steal the knowledge in this city, you will first have to defeat me. I am the guardian of
+    the secrets of the city, and I will not let you have them without a fight."
+    ''')
+
+    if 'Holy Water' in inventory:
+        print('Caspian spills the holy water on the dragon, making its undead skeleton burn with holy light', end='\n\n')
+        boss_health -= 1
+    if 'Ancient Sword' in inventory:
+        print('Grok savagely slashes at the skeleton dragon with the ancient sword, and breaks some of its bones', end='\n\n')
+        boss_health -= 1
+    if 'Grimoire' in inventory:
+        print('Arida reads an ancient spell from the grimoire she took and seals the dragon under magical chains', end='\n\n')
+        boss_health -= 1
+
+
+
+    if boss_health <= 0:
+        print("The party manages to defeat the dragon. It becomes a pile of dust on the floor.")
+        print("YOU WIN", end='\n')
+        print('''
+    The party moves on to the city and they find all sorts of secrets.
+    Arida finds out about her draconic heritage, Grok finds the secret to becoming all powerful,
+    Caspian finds out how the Gods became who they are today...
+    
+    But Ambrose? They watched. They gathered information, and left silently. Nobody has seen them since.''')
+    else:
+        print("The dragon manages to breath out some dark smoke on the party that drains them from their energy.")
+        print("YOU LOSE", end='\n')
+        print('''
+    After some time, the party rises back from the ground. They are not the same. They cannot utter a word, and
+    their bodies are weaker than ever. Somehow, they are still conscious, but lack control over their bodies.
+    There is a craving for flesh that consumes them. They have now become servants of the guardian.''')
 
 def main():
 
@@ -129,6 +166,10 @@ def main():
 
         if (user_input in current_room['move']) or (user_input == 'exit'):
             move_rooms(user_input)
+
+            if current_room == rooms['City']:  # Check if player is in the city
+                boss_fight_sequence()
+                break
         elif user_input == 'i':
             inspect_room()
         elif user_input == 'inv':
